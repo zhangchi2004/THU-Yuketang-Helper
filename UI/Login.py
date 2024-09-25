@@ -140,7 +140,7 @@ class Login_Ui(object):
                 self.QRcode.setPixmap(img_pixmap)
             # 扫码且登录成功
             elif data["op"] == "loginsuccess":
-                web_login_url = "https://www.yuketang.cn/pc/web_login"
+                web_login_url = "https://pro.yuketang.cn/pc/web_login"
                 login_data = {
                     "UserID":data["UserID"],
                     "Auth":data["Auth"]
@@ -156,7 +156,7 @@ class Login_Ui(object):
                 config["sessionid"] = sessionid
                 self.save(sessionid)
                 Dialog.accept()
-        login_wss_url = "wss://www.yuketang.cn/wsapp/"
+        login_wss_url = "wss://pro.yuketang.cn/wsapp/"
         # 开启websocket线程和定时刷新二维码线程
         self.wsapp = websocket.WebSocketApp(url=login_wss_url,on_open=on_open,on_message=on_message,on_close=on_close)
         self.wsapp_t = threading.Thread(target=self.wsapp.run_forever,daemon=True)
@@ -168,5 +168,5 @@ class Login_Ui(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "登录"))
-        self.label.setText(_translate("Dialog", "微信扫码登录雨课堂"))
-        self.label_2.setText(_translate("Dialog", "注：扫码登录仅用于获取您的登录状态以便软件监听雨课堂信息。"))
+        self.label.setText(_translate("Dialog", "微信扫码登录荷塘雨课堂"))
+        self.label_2.setText(_translate("Dialog", "注：扫码登录仅用于获取您的登录状态以便软件监听荷塘雨课堂信息。"))

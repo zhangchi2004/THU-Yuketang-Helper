@@ -57,7 +57,7 @@ class MainWindow_Ui(QtCore.QObject):
         self.label.setStyleSheet("border-radius:10px;\n"
 "")
         self.label.setText("")
-        self.label.setPixmap(QtGui.QPixmap(resource_path("UI\\Image\\NoRainClassroom.jpg")))
+        self.label.setPixmap(QtGui.QPixmap(resource_path("UI\\Image\\TinsghuaYKT.jpg")))
         self.label.setScaledContents(True)
         self.label.setObjectName("label")
         self.horizontalLayout_3.addWidget(self.label)
@@ -177,8 +177,8 @@ class MainWindow_Ui(QtCore.QObject):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "摸鱼课堂"))
-        self.label_2.setText(_translate("MainWindow", "摸鱼课堂"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "荷塘雨课堂"))
+        self.label_2.setText(_translate("MainWindow", "荷塘雨课堂"))
         self.active_btn.setText(_translate("MainWindow", "启用"))
         self.login_btn.setText(_translate("MainWindow", "登录"))
         self.config_btn.setText(_translate("MainWindow", "配置"))

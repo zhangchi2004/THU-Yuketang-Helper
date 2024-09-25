@@ -6,7 +6,7 @@ import websocket
 import json
 from Scripts.Utils import get_user_info, dict_result, calculate_waittime
 
-wss_url = "wss://www.yuketang.cn/wsapp/"
+wss_url = "wss://pro.yuketang.cn/wsapp/"
 class Lesson:
     def __init__(self,lessonid,lessonname,classroomid,main_ui):
         self.classroomid = classroomid
@@ -34,7 +34,7 @@ class Lesson:
 
     def _get_ppt(self,presentationid):
         # 获取课程各页ppt
-        r = requests.get(url="https://www.yuketang.cn/api/v3/lesson/presentation/fetch?presentation_id=%s" % (presentationid),headers=self.headers,proxies={"http": None,"https":None})
+        r = requests.get(url="https://pro.yuketang.cn/api/v3/lesson/presentation/fetch?presentation_id=%s" % (presentationid),headers=self.headers,proxies={"http": None,"https":None})
         return dict_result(r.text)["data"]
 
     def get_problems(self,presentationid):
@@ -56,7 +56,7 @@ class Lesson:
                 self.add_message(meg,3)
                 # threading.Thread(target=say_something,args=(meg,)).start()
             data = {"problemId":problemid,"problemType":problemtype,"dt":int(time.time()),"result":answer}
-            r = requests.post(url="https://www.yuketang.cn/api/v3/lesson/problem/answer",headers=self.headers,data=json.dumps(data),proxies={"http": None,"https":None})
+            r = requests.post(url="https://pro.yuketang.cn/api/v3/lesson/problem/answer",headers=self.headers,data=json.dumps(data),proxies={"http": None,"https":None})
             return_dict = dict_result(r.text)
             if return_dict["code"] == 0:
                 meg = "%s自动回答成功" % self.lessonname
@@ -70,9 +70,9 @@ class Lesson:
                 return False
         else:
             if limit == -1:
-                meg = "%s的问题没有找到答案，该题不限时，请尽快前往雨课堂回答" % (self.lessonname)
+                meg = "%s的问题没有找到答案，该题不限时，请尽快前往荷塘雨课堂回答" % (self.lessonname)
             else:
-                meg = "%s的问题没有找到答案，请在%s秒内前往雨课堂回答" % (self.lessonname,limit)
+                meg = "%s的问题没有找到答案，请在%s秒内前往荷塘雨课堂回答" % (self.lessonname,limit)
             # threading.Thread(target=say_something,args=(meg,)).start()
             self.add_message(meg,4)
             return False
@@ -82,7 +82,7 @@ class Lesson:
         wsapp.send(json.dumps(self.handshark))
 
     def checkin_class(self):
-        r = requests.post(url="https://www.yuketang.cn/api/v3/lesson/checkin",headers=self.headers,data=json.dumps({"source":5,"lessonId":self.lessonid}),proxies={"http": None,"https":None})
+        r = requests.post(url="https://pro.yuketang.cn/api/v3/lesson/checkin",headers=self.headers,data=json.dumps({"source":5,"lessonId":self.lessonid}),proxies={"http": None,"https":None})
         set_auth = r.headers.get("Set-Auth",None)
         times = 1
         while not set_auth and times <= 3:
@@ -169,10 +169,10 @@ class Lesson:
                     self.start_answer(data["problemid"],time_left)
                 else:
                     if time_left == -1:
-                        meg = "%s检测到问题，该题不限时，请尽快前往雨课堂回答" % (self.lessonname)
+                        meg = "%s检测到问题，该题不限时，请尽快前往荷塘雨课堂回答" % (self.lessonname)
                         self.add_message(meg,3)
                     else:
-                        meg = "%s检测到问题，请在%s秒内前往雨课堂回答" % (self.lessonname,time_left)
+                        meg = "%s检测到问题，请在%s秒内前往荷塘雨课堂回答" % (self.lessonname,time_left)
 
     def start_answer(self, problemid, limit):
         for promble in self.problems_ls:
@@ -192,9 +192,9 @@ class Lesson:
                 break
         else:
             if limit == -1:
-                meg = "%s的问题没有找到答案，该题不限时，请尽快前往雨课堂回答" % (self.lessonname)
+                meg = "%s的问题没有找到答案，该题不限时，请尽快前往荷塘雨课堂回答" % (self.lessonname)
             else:
-                meg = "%s的问题没有找到答案，请在%s秒内前往雨课堂回答" % (self.lessonname,limit)
+                meg = "%s的问题没有找到答案，请在%s秒内前往荷塘雨课堂回答" % (self.lessonname,limit)
             self.add_message(meg,4)
             # threading.Thread(target=say_something,args=(meg,)).start()
 
@@ -222,7 +222,7 @@ class Lesson:
         return callback(self)
     
     def send_danmu(self,content):
-        url = "https://www.yuketang.cn/api/v3/lesson/danmu/send"
+        url = "https://pro.yuketang.cn/api/v3/lesson/danmu/send"
         data = {
             "extra": "",
             "fromStart": "50",
@@ -242,7 +242,7 @@ class Lesson:
         self.add_message(meg,1)
     
     def get_lesson_info(self):
-        url = "https://www.yuketang.cn/api/v3/lesson/basic-info"
+        url = "https://pro.yuketang.cn/api/v3/lesson/basic-info"
         r = requests.get(url=url,headers=self.headers,proxies={"http": None,"https":None})
         return dict_result(r.text)["data"]
         
@@ -255,7 +255,7 @@ class User:
         self.uid = uid
     
     def get_userinfo(self, classroomid, headers):
-        r = requests.get("https://www.yuketang.cn/v/course_meta/fetch_user_info_new?query_user_id=%s&classroom_id=%s" % (self.uid,classroomid),headers=headers,proxies={"http": None,"https":None})
+        r = requests.get("https://pro.yuketang.cn/v/course_meta/fetch_user_info_new?query_user_id=%s&classroom_id=%s" % (self.uid,classroomid),headers=headers,proxies={"http": None,"https":None})
         data = dict_result(r.text)["data"]
         self.sno = data["school_number"]
         self.name = data["name"]

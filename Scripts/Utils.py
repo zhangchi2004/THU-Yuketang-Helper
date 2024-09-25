@@ -107,7 +107,7 @@ def get_user_info(sessionid):
         "Cookie":"sessionid=%s" % sessionid,
         "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:97.0) Gecko/20100101 Firefox/97.0",
     }
-    r = requests.get(url="https://www.yuketang.cn/api/v3/user/basic-info",headers=headers,proxies={"http": None,"https":None})
+    r = requests.get(url="https://pro.yuketang.cn/api/v3/user/basic-info",headers=headers,proxies={"http": None,"https":None})
     rtn = dict_result(r.text)
     return (rtn["code"],rtn["data"])
 
@@ -117,7 +117,7 @@ def get_on_lesson(sessionid):
         "Cookie":"sessionid=%s" % sessionid,
         "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:97.0) Gecko/20100101 Firefox/97.0",
     }
-    r = requests.get("https://www.yuketang.cn/api/v3/classroom/on-lesson",headers=headers,proxies={"http": None,"https":None})
+    r = requests.get("https://pro.yuketang.cn/api/v3/classroom/on-lesson",headers=headers,proxies={"http": None,"https":None})
     rtn = dict_result(r.text)
     return rtn["data"]["onLessonClassrooms"]
 
@@ -127,7 +127,7 @@ def get_on_lesson_old(sessionid):
         "Cookie":"sessionid=%s" % sessionid,
         "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:97.0) Gecko/20100101 Firefox/97.0",
     }
-    r = requests.get("https://www.yuketang.cn/v/course_meta/on_lesson_courses",headers=headers,proxies={"http": None,"https":None})
+    r = requests.get("https://pro.yuketang.cn/v/course_meta/on_lesson_courses",headers=headers,proxies={"http": None,"https":None})
     rtn = dict_result(r.text)
     return rtn["on_lessons"]
 
@@ -137,4 +137,5 @@ def resource_path(relative_path):
         base_path = sys._MEIPASS
     else:
         base_path = os.path.abspath(".")
+    print(os.path.join(base_path, relative_path))
     return os.path.join(base_path, relative_path)
