@@ -78,8 +78,8 @@ class Lesson:
             return False
     
     def on_open(self, wsapp):
-        self.handshark = {"op":"hello","userid":self.user_uid,"role":"student","auth":self.auth,"lessonid":self.lessonid}
-        wsapp.send(json.dumps(self.handshark))
+        self.handshake = {"op":"hello","userid":self.user_uid,"role":"student","auth":self.auth,"lessonid":self.lessonid}
+        wsapp.send(json.dumps(self.handshake))
 
     def checkin_class(self):
         r = requests.post(url="https://pro.yuketang.cn/api/v3/lesson/checkin",headers=self.headers,data=json.dumps({"source":5,"lessonId":self.lessonid}),proxies={"http": None,"https":None})
@@ -94,6 +94,7 @@ class Lesson:
 
     def on_message(self, wsapp, message):
         data = dict_result(message)
+        print(data)
         op = data["op"]
         if op == "hello":
             presentations = list(set([slide["pres"] for slide in data["timeline"] if slide["type"]=="slide"]))
@@ -175,20 +176,20 @@ class Lesson:
                         meg = "%s检测到问题，请在%s秒内前往荷塘雨课堂回答" % (self.lessonname,time_left)
 
     def start_answer(self, problemid, limit):
-        for promble in self.problems_ls:
-            if promble["problemId"] == problemid:
-                if promble["result"] is not None:
+        for promblem in self.problems_ls:
+            if promblem["problemId"] == problemid:
+                if promblem["result"] is not None:
                     # 如果该题已经作答过，直接跳出函数以忽略该题
                     # 该情况理论上只会出现在启动监听时
                     return
-                blanks = promble.get("blanks",[])
+                blanks = promblem.get("blanks",[])
                 answers = []
                 if blanks:
                     for i in blanks:
                         answers.append(random.choice(i["answers"]))
                 else:
-                    answers = promble.get("answers",[])
-                threading.Thread(target=self.answer_questions,args=(promble["problemId"],promble["problemType"],answers,limit)).start()
+                    answers = promblem.get("answers",[])
+                threading.Thread(target=self.answer_questions,args=(promblem["problemId"],promblem["problemType"],answers,limit)).start()
                 break
         else:
             if limit == -1:
