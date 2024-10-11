@@ -12,7 +12,5 @@ if __name__ == "__main__":
     # 启动监听
     ui.active()
     # 主窗体循环
-    print(app)
-    print(sys.argv)
     app.exec_()
 

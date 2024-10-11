@@ -94,7 +94,6 @@ class Lesson:
 
     def on_message(self, wsapp, message):
         data = dict_result(message)
-        print(data)
         op = data["op"]
         if op == "hello":
             presentations = list(set([slide["pres"] for slide in data["timeline"] if slide["type"]=="slide"]))
